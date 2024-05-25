@@ -1,7 +1,6 @@
-import Sequelize from "sequelize";
+import Sequelize from 'sequelize'
 import 'dotenv/config'
-
-const { DB_USER, DB_PASSWORD, DB_HOST, DB_DATABASE, DB_DIALECT } = process.env
+const { DB_USER, DB_HOST, DB_PASSWORD, DB_DATABASE, DB_DIALECT } = process.env
 
 const db = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
     host: DB_HOST,
@@ -15,7 +14,7 @@ const db = new Sequelize(DB_DATABASE, DB_USER, DB_PASSWORD, {
         acquire: 30000,
         idle: 10000
     },
-    operatorsAliases: false
+    operatorAliases: false
 })
-
+    
 export default db

@@ -1,24 +1,34 @@
 import express from "express";
 import routes from "./routes/router.js";
+import { engine } from 'express-handlebars';
 import db from "./config/db.js";
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-//conexión a la base de datos
+
+//middlewares
+app.use(express.json());
+
 try {
     db.authenticate();
-    console.log('Conectado a la base de datos correctamente');
+    db.sync({force: false})
+    console.log('Connection has been established successfully.');
 } catch (error) {
-    console.log(error);
+    console.log('Unable to connect to the database:', error);
 }
-//middlewares
-
 
 //configuracion del motor de plantillas
+app.engine('hbs', engine({
+  extname: '.hbs'
+}));
+app.set('view engine', 'hbs');
+app.set('views', './views');
+
 
 //Routes
-app.use('/', routes);
+app.use("/", routes);
 
-
-app.listen(PORT, () => console.log(`Server running on port http://localhost:${PORT}`));
-
+app.listen(PORT, () =>
+  console.log(`Server running on port http://localhost:${PORT}`)
+);
